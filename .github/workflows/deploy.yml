@@ -1,0 +1,39 @@
+name: Deploy to GH Pages
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: 'yarn'
+        cache-dependency-path: 'yarn.lock'
+
+    - name: Install and build
+      run: |
+        yarn install
+        yarn build
+
+    - name: Upload build artifact
+      uses: actions/upload-pages-artifact@v1
+      with:
+        path: ./build   # Make sure this path points to your build output directory
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v2
+
+    # Optionally, add a step to output the deployment URL
+    - name: Output deployment URL
+      run: echo "Deployed to ${{ steps.deployment.outputs.page_url }}"
