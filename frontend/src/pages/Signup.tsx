@@ -31,40 +31,24 @@ export default function Signup() {
         }
     }
 
-    return (
-        <div className='flex flex-col h-screen items-center p-5 gap-5 justify-evenly'>
-            <h1>Login</h1>
-            <form className='flex flex-col gap-5 w-screen p-5'>
-                <div className='flex flex-col justify-evenly'>
-                <label className="block text-gray-700 text-sm font-bold mb-2">
-                    Username
-                </label>
-                    <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type='text' placeholder='Username' value={username} onChange={(e) => setUsername(e.target.value)}></input>
-                </div>  
-                <div className='flex flex-col justify-evenly'>
-                    <label className="block text-gray-700 text-sm font-bold mb-2">
-                        Password
-                    </label>
-                    <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)}></input>
-                </div>
-                <div className='flex flex-col justify-evenly'>
-                    <label className="block text-gray-700 text-sm font-bold mb-2">
-                        Confirm Password
-                    </label>
-                    <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type='password' placeholder='Confirm Password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}></input>
-                </div>
-                {/* error message */}
-                <div className='flex flex-col justify-evenly'>
-                    <label className="block text-red-600 text-sm font-bold mb-2">
-                        {err}
-                    </label>
-                </div>
-            </form>
-            <div className='flex flex-col w-screen p-5 gap-2'>
-                <button className='green' onClick={submitSignup}>Signup</button>
-                <button className='white' onClick={() => navigate(-1)}>Back</button>
-            </div>
-        </div>
-    )
+    return <div className='v-layout page-pad'>
+        <h1>Login</h1>
+        {err && <label className="text-red-600">{err}</label>}
 
+        <div>
+            <label>Username</label>
+            <input type='text' placeholder='Username' value={username} onChange={(e) => setUsername(e.target.value)}></input>
+        </div>
+        <div>
+            <label>Password</label>
+            <input type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)}></input>
+        </div>
+        <div>
+            <label>Confirm Password</label>
+            <input type='password' placeholder='Confirm Password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}></input>
+        </div>
+
+        <button className='green mt-5' onClick={submitSignup}>Signup</button>
+        <button className='white' onClick={() => navigate(-1)}>Back</button>
+    </div>
 }

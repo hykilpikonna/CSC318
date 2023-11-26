@@ -17,6 +17,9 @@ $shadow-width: 0 4px 0
 .c-green
   color: $c-green
 
+html
+  height: 100%
+
 body
   margin: 0
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif
@@ -24,6 +27,10 @@ body
   -moz-osx-font-smoothing: grayscale
 
   color: $c-default-text
+  height: 100%
+
+#root
+  height: 100%
 
 code
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace
@@ -51,6 +58,36 @@ button.white
   border-width: 2px 2px 4px
   box-shadow: none
 
+input
+  border: solid $c-white-shadow
+  border-width: 2px 2px 4px
+  border-radius: $border-radius
+  padding: 10px 16px
+  width: 100%
+  transition: all 0.2s ease-in-out
+
+  &:focus
+    outline: none
+    border-color: $c-green
+
+label
+  display: block
+  font-size: 0.9em
+  font-weight: 600
+  margin-bottom: 0.5em
+
 h1
   font-size: 2em
   margin-bottom: 0.5em
+
+.v-layout
+  display: flex
+  flex-direction: column
+  justify-content: center
+
+  gap: 1em
+  width: 100%
+  height: 100%
+
+.page-pad
+  padding: 1em

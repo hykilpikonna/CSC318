@@ -9,8 +9,6 @@ export function signup(username: string, password: string)
     db.users = JSON.stringify({})
 
   const users = JSON.parse(db.users)
-  if (users[username])
-    throw new Error('User already exists')
 
   users[username] = password
   db.users = JSON.stringify(users)
