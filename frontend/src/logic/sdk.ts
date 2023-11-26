@@ -13,6 +13,7 @@ export function signup(username: string, password: string)
     throw new Error('User already exists')
 
   users[username] = password
+  db.users = JSON.stringify(users)
 }
 
 export function login(username: string, password: string)
