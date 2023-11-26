@@ -4,11 +4,26 @@ import './index.sass';
 import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Welcome from "./pages/Welcome";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Course from "./pages/Course";
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Welcome/>,
+  },
+  {
+    path: '/login',
+    element: <Login/>,
+  },
+  {
+    path: '/signup',
+    element: <Signup/>,
+  },
+  {
+    path: '/courses',
+    element: <Course/>,
   }
 ])
 
