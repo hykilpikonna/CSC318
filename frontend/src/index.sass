@@ -16,6 +16,10 @@ $shadow-width: 0 4px 0
   color: $c-blue
 .c-green
   color: $c-green
+.bg-green
+  background-color: $c-green
+.round
+  border-radius: $border-radius
 
 html
   height: 100%
@@ -58,12 +62,18 @@ button.white
   border-width: 2px 2px 4px
   box-shadow: none
 
-input
+.box
   border: solid $c-white-shadow
   border-width: 2px 2px 4px
   border-radius: $border-radius
   padding: 10px 16px
   width: 100%
+
+  &.no-shadow
+    border-width: 2px
+
+input
+  @extend .box
   transition: all 0.2s ease-in-out
 
   &:focus
