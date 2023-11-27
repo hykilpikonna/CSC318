@@ -73,7 +73,8 @@ This document outlines the API endpoints for a language learning application, de
 ### Speech Recognition (`/recognize`)
 - **Method:** POST
 - **Description:** Converts spoken words in an audio file to text.
-- **Request Body:** An audio file uploaded using `UploadFile`.
+- **Request Body:**
+  - `audio_file`: An audio file uploaded using `UploadFile`.
 - **Response:** `RecognizeResponse`
   - `text`: Transcribed text from the audio file.
 - **Example Response:** `{ "text": "Hello, how can I help you today?" }`
