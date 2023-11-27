@@ -7,6 +7,10 @@ import Welcome from "./pages/Welcome";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Course from "./pages/Course";
+import Profile from "./pages/Profile";
+import CollabLearning from './pages/CollabLearning';
+import Review from './pages/Review';
+import Speaking from './pages/Speaking';
 
 const router = createBrowserRouter([
   {
@@ -24,7 +28,23 @@ const router = createBrowserRouter([
   {
     path: '/courses',
     element: <Course/>,
-  }
+  },
+  {
+    path: '/collab-learning',
+    element: <CollabLearning/>
+  },
+  {
+    path: '/review',
+    element: <Review/>
+  },
+  {
+    path: '/speaking',
+    element: <Speaking/>
+  },
+  {
+    path: '/profile',
+    element: <Profile/>
+  },
 ])
 
 const root = ReactDOM.createRoot(
