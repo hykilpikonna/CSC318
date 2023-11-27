@@ -3,7 +3,7 @@
 @tailwind utilities
 
 $c-default-text: #222
-
+$c-default-icon: #888
 $c-blue: rgb(28, 176, 246)
 $c-blue-shadow: rgb(24, 153, 214)
 $c-green: rgb(88, 204, 2)
@@ -104,3 +104,32 @@ h1
 
 .page-pad
   padding: 2em 1em
+
+.navbar
+  position: fixed
+  bottom: 0
+  left: 0
+  width: 100%
+  border-top: solid $c-white-shadow
+  border-width: 2px 0 0
+  display: flex
+  justify-content: space-around
+  padding: 10px
+  color: $c-default-icon
+
+.navbar-item
+  text-decoration: none
+  transition: color 0.3s ease
+  display: flex
+  align-items: center
+  flex-direction: column
+
+  svg
+    width: 24px
+    height: 24px
+
+  span
+    font-size: 12px
+
+  &.active
+    color: $c-green
