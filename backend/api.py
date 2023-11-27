@@ -213,7 +213,6 @@ def get_audio(UUID: UUID4):
         raise HTTPException(status_code=404, detail="Audio not found")
     if isinstance(PENDING_AUDIO[UUID], str):
         audio_text = PENDING_AUDIO[UUID]
-        del PENDING_AUDIO[UUID]
         response = openai_client.audio.speech.create(
             model="tts-1",
             voice="alloy",
