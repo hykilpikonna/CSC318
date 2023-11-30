@@ -10,7 +10,8 @@ import Course from "./pages/Course";
 import Profile from "./pages/Profile";
 import CollabLearning from './pages/CollabLearning';
 import Review from './pages/Review';
-import Speaking from './pages/Speaking';
+import CharacterSelection from './pages/CharacterSelection';
+import Character from './pages/Character';
 
 const router = createBrowserRouter([
   {
@@ -39,12 +40,16 @@ const router = createBrowserRouter([
   },
   {
     path: '/speaking',
-    element: <Speaking/>
+    element: <CharacterSelection/>
   },
   {
     path: '/profile',
     element: <Profile/>
   },
+  {
+    path: '/character',
+    element: <Character/>
+  }
 ])
 
 const root = ReactDOM.createRoot(
