@@ -64,26 +64,6 @@ export function getUsername()
   return db.user
 }
 
-// export function recordAudio(callback: (audio: HTMLAudioElement) => void) {
-//   let chunks = [] as any;
-//   let mediaRecorder = null as any;
-
-//   navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-//     mediaRecorder = new MediaRecorder(stream)
-//     mediaRecorder.ondataavailable = (e: any) => {
-//       chunks.push(e.data)
-//     }
-
-//     mediaRecorder.onstop = (e: any) => {
-//       const blob = new Blob(chunks, { type: 'audio/ogg; codecs=opus' })
-//       chunks = []
-//       const audioURL = window.URL.createObjectURL(blob)
-//       const audio = new Audio(audioURL)
-//       callback(audio);
-//     }
-//   })
-// }
-
 export interface CharacterChatCreationRequest 
 {
   character: string;
