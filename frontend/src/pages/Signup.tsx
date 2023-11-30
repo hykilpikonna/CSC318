@@ -31,7 +31,7 @@ export default function Signup() {
                 console.log(confirmPassword)
                 return
             } else {
-                signup(username, password, "")
+                signup(username, password, lang)
                 navigate('/courses')
             }
         }
@@ -58,7 +58,7 @@ export default function Signup() {
             {err && <label className="text-red-600">{err}</label>}
 
             {stage === 0 && <>
-            {possibleLangs.map((lang, i) => <button className="white flex items-center gap-5" onClick={() => setStage(1)} key={i}>
+            {possibleLangs.map((lang, i) => <button className="white flex items-center gap-5" onClick={() => {setLang(lang.name); setStage(1);}} key={i}>
                 <img src={lang.icon} alt={lang.name} className="max-w-[50px]"/>
                 <span>{lang.name}</span>
             </button>)}

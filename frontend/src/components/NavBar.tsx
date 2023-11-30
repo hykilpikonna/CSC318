@@ -1,7 +1,7 @@
 // NavBar.tsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { NavItem } from '../components/NavItem'; // adjust the path as needed
+import { NavItem } from '../components/NavItem';
 
 export default function NavBar() {
     const navigate = useNavigate();

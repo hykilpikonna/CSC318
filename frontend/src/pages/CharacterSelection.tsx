@@ -13,6 +13,10 @@ export default function CharacterSelection() {
         // Add more characters here
     ];
 
+    const startSession = () => {
+        // Start a session with the selected character
+    }
+
     const handleCharacterClick = (characterName: string, characterImage: string) => {
         navigate('/character', { state: { name: characterName, image: characterImage } });
     }
