@@ -7,7 +7,7 @@ export default function Review() {
 
     const writtenReview = ["Questions", "Vocabulary"];
     const verbalReview = ["Questions", "Pronunciation"];
-    const language = getLanguage(getUsername());
+    const language = getLanguage().name;
 
     const handleReviewLessonClick = (reviewType: string, lesson: string) => {
         type Question = { question: string, wordBank: string[], expected: string, type: string, exercise: string };

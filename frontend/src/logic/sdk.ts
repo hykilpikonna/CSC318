@@ -15,7 +15,7 @@ export interface Lang {
   icon: string
 }
 
-export const possibleLangs = [
+export const possibleLangs: Lang[] = [
   {name: 'Mandarin Chinese', code: 'zh', icon: MandarinChinese},
   {name: 'Japanese', code: 'ja', icon: Japanese},
   {name: 'English', code: 'en', icon: English},
@@ -53,15 +53,29 @@ export function isLoggedIn()
   return !!db.user
 }
 
-export function getLanguage(username: string)
-{
-  const users = JSON.parse(db.users)
-  return users[username].language
-}
-
 export function getUsername()
 {
   return db.user
+}
+
+export function getLanguage(): Lang
+{
+  const users = JSON.parse(db.users)
+  const lang = users[getUsername()].language
+  if (!lang)
+  {
+    alert('No language set, logging out')
+    logout()
+    window.location.href = '/'
+  }
+  const lang_obj = possibleLangs.find(l => l.name === lang)!
+  if (!lang_obj)
+  {
+    alert(`Invalid language set: ${lang}, logging out`)
+    logout()
+    window.location.href = '/'
+  }
+  return lang_obj
 }
 
 export interface CharacterChatCreationRequest 
@@ -78,12 +92,12 @@ export interface CharacterChatCreationResponse
 
 export async function startFictionalChat(character: string): Promise<CharacterChatCreationResponse> {
   const currUser = getUsername();
-  const language = getLanguage(currUser);
+  const language = getLanguage();
   
   const request: CharacterChatCreationRequest = {
     character: character,
     user_name: currUser,
-    language: language
+    language: language.name
   };
   
   const response = await fetch(`${backendUrl}/character-chat`, {

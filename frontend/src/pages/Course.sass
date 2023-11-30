@@ -1,0 +1,29 @@
+@import "../index"
+
+.course-button
+    @extend button
+    @extend .green
+
+    box-shadow: 0 8px 0 $c-green-shadow
+
+    width: 70px
+    height: 60px
+    border-radius: 50%
+
+    display: flex
+    justify-content: center
+    align-items: center
+    font-size: 5em
+    overflow: hidden
+
+    &.gray
+        background: $c-gray
+        color: $c-gray-shadow
+        box-shadow: 0 8px 0 $c-gray-shadow
+
+    &.gold
+        background: $c-gold
+        color: $c-gold-text
+        box-shadow: 0 8px 0 $c-gold-shadow
+
+
