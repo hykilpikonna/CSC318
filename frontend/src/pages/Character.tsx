@@ -9,7 +9,8 @@ export default function Character() {
     const navigate = useNavigate();
     const { name, image , sessionId } = location.state;
 
-    const [messages, setMessages] = useState([{}]);
+    type Message = { text: string, sender: string };
+    const [messages, setMessages] = useState<Message[]>([]);
 
     let chunks = [] as any;
     let mediaRecorder = null as any;
@@ -59,11 +60,15 @@ export default function Character() {
                 <h1 className="text-center">Talk With...</h1>
                 <CharacterBadge name={name} image={image} onClick={() => {}}/>
                 <div className="chat-area">
-                    {messages.map((message, index) => (
-                        <div key={index} className={`message ${message.sender}`}>
-                            <p>{message.text}</p>
-                        </div>
-                    ))}
+                    {messages.length === 0 ? (
+                        <p className="text-center text-gray-400">Please record a message to start the conversation.</p>
+                    ) : (
+                        messages.map((message, index) => (
+                            <div key={index} className={`message ${message.sender}`}>
+                                <p>{message.text}</p>
+                            </div>
+                        ))
+                    )}
                 </div>
                 <button className="record-btn" onClick={handleRecord}>Record</button>
             </div>
