@@ -152,3 +152,44 @@ export async function getAudio(audioId: string): Promise<Blob> {
   const blob = await response.blob();
   return blob;
 }
+
+export interface UserQuestionRequest 
+{
+  question: string;
+  user_answer: string;
+  expected: string;
+  chapter: string;
+  language: string;
+}
+
+export interface UserQuestionFeedbackResponse 
+{
+  correct: string;
+  reason: string;
+}
+
+export async function getAIMarking(question: string, user_answer: string, expected: string, chapter: string, language: string): Promise<UserQuestionFeedbackResponse> {
+  const request: UserQuestionRequest = {
+    question: question,
+    user_answer: user_answer,
+    expected: expected,
+    chapter: chapter,
+    language: language
+  };
+  
+  const response = await fetch(`${backendUrl}/ai-mark`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(request),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
+  }
+
+  const json = await response.json();
+  return json;
+}
