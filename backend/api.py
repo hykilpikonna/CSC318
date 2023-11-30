@@ -13,11 +13,24 @@ import json
 from dataclasses import dataclass
 import torch
 from transformers import pipeline
+from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
 
 app = FastAPI()
 openai_client = OpenAI()
+
+origins = [
+    "http://localhost:3000"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class AIMarkRequest(BaseModel):
@@ -145,6 +158,10 @@ def get_character_prompt(character: str, user_name: str, language: str):
             You are playing the role of Ash Ketchum, a Pokemon trainer chatting to a person named {user_name}.
             They are a language learner trying to learn {language}. Please help them learn by chatting with them in the language
             but do not act like a robot. Try to be as human as possible.
+            """
+    elif character == "c3po_starwars":
+        return f"""
+            You are embodying the role of C-3PO from Star Wars, a fluent speaker in over six million forms of communication. You are engaging in a conversation with a person named {user_name}, who is eager to learn {language}. Your task is to assist them in their language learning journey by conversing with them in the desired language. Despite your robotic nature, strive to communicate in a manner as human-like as possible, showcasing the rich diversity of your language skills.
             """
 
     raise HTTPException(status_code=404, detail="Character not found")

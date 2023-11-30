@@ -1,10 +1,13 @@
 
 import MandarinChinese from '../assets/img/lang/zh.svg'
 import Japanese from '../assets/img/lang/ja.svg'
+import English from '../assets/img/lang/en.svg'
 
 // db.users: Signup table map<username, password>
 // db.user: Current logged-in user
 const db = localStorage
+
+const backendUrl = 'https://localhost:8000'
 
 export interface Lang {
   name: string
@@ -15,6 +18,7 @@ export interface Lang {
 export const possibleLangs = [
   {name: 'Mandarin Chinese', code: 'zh', icon: MandarinChinese},
   {name: 'Japanese', code: 'ja', icon: Japanese},
+  {name: 'English', code: 'en', icon: English},
 ]
 
 export function signup(username: string, password: string, language: string)
@@ -26,6 +30,8 @@ export function signup(username: string, password: string, language: string)
 
   users[username] = {password, language}
   db.users = JSON.stringify(users)
+
+  db.user = username
 }
 
 export function login(username: string, password: string)
@@ -45,4 +51,145 @@ export function logout()
 export function isLoggedIn()
 {
   return !!db.user
+}
+
+export function getLanguage(username: string)
+{
+  const users = JSON.parse(db.users)
+  return users[username].language
+}
+
+export function getUsername()
+{
+  return db.user
+}
+
+export interface CharacterChatCreationRequest 
+{
+  character: string;
+  user_name: string;
+  language: string;
+}
+
+export interface CharacterChatCreationResponse 
+{
+  chat_id: string;
+}
+
+export async function startFictionalChat(character: string): Promise<CharacterChatCreationResponse> {
+  const currUser = getUsername();
+  const language = getLanguage(currUser);
+  
+  const request: CharacterChatCreationRequest = {
+    character: character,
+    user_name: currUser,
+    language: language
+  };
+  
+  const response = await fetch(`${backendUrl}/character-chat`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(request),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
+  }
+
+  const json = await response.json();
+  return json.session_id;
+}
+
+export async function speechToText(audioBlob: Blob): Promise<string> {
+  const formData = new FormData();
+  formData.append('audio_file', audioBlob, 'audio.wav');
+
+  const response = await fetch(`${backendUrl}/recognize`, {
+      method: 'POST',
+      body: formData,
+  });
+
+  const json = await response.json();
+
+  if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}, message: ${json.message}`);
+  }
+
+  return json.text;
+}
+
+export async function characterChatMessage(sessionId: string, message: string): Promise<{ msg: string, audio_id: string }> {
+
+  const request = {msg : message};
+
+  const response = await fetch(`${backendUrl}/character-chat/${sessionId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(request),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
+  }
+
+  const json = await response.json();
+  return json;
+}
+
+export async function getAudio(audioId: string): Promise<Blob> {
+  const response = await fetch(`${backendUrl}/audio/${audioId}`);
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const blob = await response.blob();
+  return blob;
+}
+
+export interface UserQuestionRequest 
+{
+  question: string;
+  user_answer: string;
+  expected: string;
+  chapter: string;
+  language: string;
+}
+
+export interface UserQuestionFeedbackResponse 
+{
+  correct: string;
+  reason: string;
+}
+
+export async function getAIMarking(question: string, user_answer: string, expected: string, chapter: string, language: string): Promise<UserQuestionFeedbackResponse> {
+  const request: UserQuestionRequest = {
+    question: question,
+    user_answer: user_answer,
+    expected: expected,
+    chapter: chapter,
+    language: language
+  };
+  
+  const response = await fetch(`${backendUrl}/ai-mark`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(request),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
+  }
+
+  const json = await response.json();
+  return json;
 }

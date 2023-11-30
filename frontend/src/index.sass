@@ -8,6 +8,8 @@ $c-blue: rgb(28, 176, 246)
 $c-blue-shadow: rgb(24, 153, 214)
 $c-green: rgb(88, 204, 2)
 $c-green-shadow: rgb(88, 167, 0)
+$c-red: rgb(255, 69, 58)
+$c-red-shadow: darken($c-red, 10%)
 $c-white-shadow: rgb(222, 222, 222)
 $border-radius: 16px
 $shadow-width: 0 4px 0
@@ -55,6 +57,10 @@ button.green
   background-color: $c-green
   box-shadow: $shadow-width $c-green-shadow
 
+button.red
+  background-color: $c-red
+  box-shadow: $shadow-width $c-red-shadow
+
 button.white
   background-color: white
   color: $c-default-text
@@ -89,6 +95,12 @@ label
 h1
   font-size: 2em
   margin-bottom: 0.5em
+  text-align: center
+
+h2
+  font-size: 1.5em
+  margin-bottom: 0.5em
+  text-align: center
 
 .v-layout
   display: flex
@@ -116,6 +128,7 @@ h1
   justify-content: space-around
   padding: 10px
   color: $c-default-icon
+  background-color: white
 
 .navbar-item
   text-decoration: none
@@ -162,6 +175,10 @@ h1
   transform: translateX(-50%)
   width: calc(100% - 40px)
   padding: 10px 16px
+
+.record-btn.red
+  background-color: $c-red
+  box-shadow: $shadow-width $c-red-shadow
 
 .chat-area
   display: flex

@@ -12,6 +12,7 @@ import CollabLearning from './pages/CollabLearning';
 import Review from './pages/Review';
 import CharacterSelection from './pages/CharacterSelection';
 import Character from './pages/Character';
+import Lesson from './pages/Lesson';
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
   {
     path: '/character',
     element: <Character/>
+  },
+  {
+    path: '/lesson',
+    element: <Lesson/>
   }
 ])
 
