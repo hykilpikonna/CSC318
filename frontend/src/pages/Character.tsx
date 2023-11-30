@@ -64,7 +64,7 @@ export default function Character() {
                 <CharacterBadge name={name} image={image} onClick={() => {}}/>
                 <div className="chat-area">
                     {messages.length === 0 ? (
-                        <p className="text-center text-gray-400">Please record a message to start the conversation.</p>
+                        <p className='subtext'>Please record a message to start the conversation.</p>
                     ) : (
                         messages.map((message, index) => (
                             <div key={index} className={`message ${message.sender}`}>
