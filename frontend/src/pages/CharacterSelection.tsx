@@ -3,35 +3,35 @@ import Ash from "../assets/img/ash.png"
 import C3PO from "../assets/img/c3po.png"
 import { useNavigate } from "react-router-dom"
 import CharacterBadge from "../components/CharacterBadge"
+import { startFictionalChat } from "../logic/sdk"
 
 export default function CharacterSelection() {
     const navigate = useNavigate();
 
     const characters = [
-        { name: 'Ash', image: Ash },
-        { name: 'C3PO', image: C3PO },
+        { name: 'Ash', image: Ash, alias: 'ash_pokemon'},
+        { name: 'C3PO', image: C3PO, alias: 'c3po_starwars'},
         // Add more characters here
     ];
 
-    const startSession = () => {
-        // Start a session with the selected character
-    }
+    const handleCharacterClick = (characterName: string, characterImage: string, alias: string) => {
 
-    const handleCharacterClick = (characterName: string, characterImage: string) => {
-        navigate('/character', { state: { name: characterName, image: characterImage } });
+        startFictionalChat(alias).then((sessionId) => {
+            navigate('/character', { state: { name: characterName, image: characterImage, sessionId: sessionId } });
+        })
     }
 
     return (
-        <div >
+        <div className="flex flex-col items-center justify-center">
             <div className="v-layout p-10">
                 <h1 className="text-center">Talk With...</h1>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="flex flex-wrap justify-center gap-3">
                     {characters.map(character => (
                         <CharacterBadge 
                             key={character.name}
                             name={character.name} 
                             image={character.image} 
-                            onClick={() => handleCharacterClick(character.name, character.image)} 
+                            onClick={() => handleCharacterClick(character.name, character.image, character.alias)} 
                         />
                     ))}
                 </div>

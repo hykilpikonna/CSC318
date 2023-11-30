@@ -6,7 +6,7 @@ import { useState } from 'react';
 export default function Character() {
     const location = useLocation();
     const navigate = useNavigate();
-    const { name, image } = location.state;
+    const { name, image , sessionId } = location.state;
 
     const [messages, setMessages] = useState([
         { text: 'Hello!', sender: 'me' },
@@ -15,7 +15,8 @@ export default function Character() {
     ]);
 
     function handleRecord() {
-        // handle the recording
+        console.log("Recording...");
+        console.log(sessionId)
     }
 
     return (
