@@ -15,8 +15,8 @@ export default function CharacterSelection() {
     ];
 
     const handleCharacterClick = (characterName: string, characterImage: string, alias: string) => {
-
         startFictionalChat(alias).then((sessionId) => {
+            console.log(sessionId);
             navigate('/character', { state: { name: characterName, image: characterImage, sessionId: sessionId } });
         })
     }

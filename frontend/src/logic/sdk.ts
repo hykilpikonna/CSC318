@@ -1,6 +1,7 @@
 
 import MandarinChinese from '../assets/img/lang/zh.svg'
 import Japanese from '../assets/img/lang/ja.svg'
+import English from '../assets/img/lang/en.svg'
 
 // db.users: Signup table map<username, password>
 // db.user: Current logged-in user
@@ -17,6 +18,7 @@ export interface Lang {
 export const possibleLangs = [
   {name: 'Mandarin Chinese', code: 'zh', icon: MandarinChinese},
   {name: 'Japanese', code: 'ja', icon: Japanese},
+  {name: 'English', code: 'en', icon: English},
 ]
 
 export function signup(username: string, password: string, language: string)
@@ -62,18 +64,25 @@ export function getUsername()
   return db.user
 }
 
- async function post(endpoint: string, body: any) {
-  const response = await fetch(`${backendUrl}/${endpoint}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(body),
-  });
+// export function recordAudio(callback: (audio: HTMLAudioElement) => void) {
+//   let chunks = [] as any;
+//   let mediaRecorder = null as any;
 
-  return response;
+//   navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+//     mediaRecorder = new MediaRecorder(stream)
+//     mediaRecorder.ondataavailable = (e: any) => {
+//       chunks.push(e.data)
+//     }
 
- }
+//     mediaRecorder.onstop = (e: any) => {
+//       const blob = new Blob(chunks, { type: 'audio/ogg; codecs=opus' })
+//       chunks = []
+//       const audioURL = window.URL.createObjectURL(blob)
+//       const audio = new Audio(audioURL)
+//       callback(audio);
+//     }
+//   })
+// }
 
 export interface CharacterChatCreationRequest 
 {
@@ -84,7 +93,6 @@ export interface CharacterChatCreationRequest
 
 export interface CharacterChatCreationResponse 
 {
-  // this shoudl be of type UUID
   chat_id: string;
 }
 
@@ -97,8 +105,6 @@ export async function startFictionalChat(character: string): Promise<CharacterCh
     user_name: currUser,
     language: language
   };
-
-  console.log('Sending request:', request);
   
   const response = await fetch(`${backendUrl}/character-chat`, {
     method: 'POST',
@@ -113,7 +119,56 @@ export async function startFictionalChat(character: string): Promise<CharacterCh
     throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
   }
 
-  return await response.json();
+  const json = await response.json();
+  return json.session_id;
 }
 
-// export interface 
+export async function speechToText(audioBlob: Blob): Promise<string> {
+  const formData = new FormData();
+  formData.append('audio_file', audioBlob, 'audio.wav');
+
+  const response = await fetch(`${backendUrl}/recognize`, {
+      method: 'POST',
+      body: formData,
+  });
+
+  const json = await response.json();
+
+  if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}, message: ${json.message}`);
+  }
+
+  return json.text;
+}
+
+export async function characterChatMessage(sessionId: string, message: string): Promise<{ msg: string, audio_id: string }> {
+
+  const request = {msg : message};
+
+  const response = await fetch(`${backendUrl}/character-chat/${sessionId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(request),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
+  }
+
+  const json = await response.json();
+  return json;
+}
+
+export async function getAudio(audioId: string): Promise<Blob> {
+  const response = await fetch(`${backendUrl}/audio/${audioId}`);
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const blob = await response.blob();
+  return blob;
+}
