@@ -1,6 +1,6 @@
-import ChatBoxBorder from '../assets/img/chatbox-border.svg';
 import { useState } from 'react';
 import { getAIMarking } from '../logic/sdk';
+import ClipLoader from "react-spinners/ClipLoader";
 
 interface WrittenQuestionProps {
   question: string;
@@ -8,16 +8,17 @@ interface WrittenQuestionProps {
   expected: string;
   chapter: string;
   language: string;
-  setCurrQuestion: Function;
+  onQuestionSubmit: Function;
 }
 
-export default function WrittenQuestionExercise({question, wordBank, expected, chapter, language}: WrittenQuestionProps) {
+export default function WrittenQuestionExercise({question, wordBank, expected, chapter, language, onQuestionSubmit}: WrittenQuestionProps) {
     const [selectedWords, setSelectedWords] = useState<string[]>([]);
     const [remainingWords, setRemainingWords] = useState(wordBank);
     const lastPunctuation = question[question.length - 1];
     const [answered, setAnswered] = useState(false);
     const [correct, setCorrect] = useState("");
     const [reason, setReason] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const handleWordBankClick = (word: string) => {
         setSelectedWords([...selectedWords, word]);
@@ -31,17 +32,25 @@ export default function WrittenQuestionExercise({question, wordBank, expected, c
 
     const handleSubmit = () => {
         const userAnswer = selectedWords.join(" ") + lastPunctuation;
-        getAIMarking(
-            question,
-            userAnswer,
-            expected,
-            chapter,
-            language
-        ).then((res) => {
-            setAnswered(true);
-            setCorrect(res.correct);
-            setReason(res.reason);
-        })
+        if (answered) {
+            setAnswered(false);
+            onQuestionSubmit();
+        } else {
+            setLoading(true);
+            getAIMarking(
+                question,
+                userAnswer.toLowerCase(),
+                expected.toLowerCase(),
+                chapter,
+                language
+            ).then((res) => {
+                setLoading(false);
+                setAnswered(true);
+                setCorrect(res.correct);
+                setReason(res.reason);
+            }).catch((e) => console.error(e));
+        }
+
     }
 
     const ResponseSection = (correct: string | null, reason: string | null) => {
@@ -58,15 +67,25 @@ export default function WrittenQuestionExercise({question, wordBank, expected, c
                             </span>
                         ))}
                     </div>
-                    <button className='green' onClick={(e) => handleSubmit()}>Submit</button>
+                    <button className='green' onClick={(e) => handleSubmit()}>
+                        {loading ? <ClipLoader
+                            color="white"
+                            loading={loading}
+                            aria-label="Loading Spinner"
+                            data-testid="loader"
+                        /> : !answered ? "Submit" : "Continue"}
+                    </button>
                 </div>
 
             )
         } else {
             return (
                 <div>
-                    <h3>{correct}</h3>
-                    <p>{reason}</p>
+                    <div className=' flex-row flex-wrap border-b-4 w-full'>
+                        <h3>{correct}</h3>
+                        <p>{reason}</p>
+                        <button className='green' onClick={(e) => handleSubmit()}>{!answered ? "Submit" : "Continue"}</button>
+                    </div>
                 </div>
             )
         }
@@ -88,16 +107,5 @@ export default function WrittenQuestionExercise({question, wordBank, expected, c
                 ))}
             </div>
             {ResponseSection(correct, reason)}
-            {/* <div className=' flex-row flex-wrap border-b-4 w-full'>
-                {remainingWords.map((word, index) => (
-                    <span 
-                    key={index} 
-                    className="border-gray-300 border-b-2 border-2 m-1 p-1 px-3 rounded-xl inline-block cursor-pointer"
-                    onClick={(event) => handleWordBankClick(word)}>
-                        {word}
-                    </span>
-                ))}
-            </div>
-            <button className='green' onClick={(e) => handleSubmit()}>Submit</button> */}
         </div>
     )}
