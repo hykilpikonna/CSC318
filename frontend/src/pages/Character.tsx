@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import CharacterBadge from '../components/CharacterBadge';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { speechToText, characterChatMessage, getAudio } from '../logic/sdk';
 
 export default function Character() {
@@ -11,44 +11,53 @@ export default function Character() {
 
     type Message = { text: string, sender: string };
     const [messages, setMessages] = useState<Message[]>([]);
+    const [isRecording, setIsRecording] = useState(false);
 
     let chunks = [] as any;
-    let mediaRecorder = null as any;
+    const mediaRecorder = useRef<MediaRecorder | null>(null);
 
-    navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-        mediaRecorder = new MediaRecorder(stream)
-        mediaRecorder.ondataavailable = (e: any) => {
-            chunks.push(e.data)
-        }
-
-        mediaRecorder.onstop = (e: any) => {
-            const blob = new Blob(chunks, { type: 'audio/wav' });
-            chunks = [];
-        
-            const audioFile = new File([blob], "audio.wav", { type: 'audio/wav' });
-        
-            speechToText(audioFile).then((text) => {
-                setMessages([...messages, { text: text, sender: 'me' }]);
-                characterChatMessage(sessionId, text).then((response) => {
-                    const { msg, audio_id } = response
-                    getAudio(audio_id).then((audioBlob) => {
-                        const audioFile = new File([audioBlob], "audio.wav", { type: 'audio/wav' });
-                        const audioUrl = URL.createObjectURL(audioFile);
-                        const audio = new Audio(audioUrl);
-                        audio.play();
-                    });
-                    setMessages(prevMessages => [...prevMessages, { text: msg, sender: 'other' }]); 
-                })
-            });
-        }
-    })
+    useEffect(() => {
+        navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+            mediaRecorder.current = new MediaRecorder(stream);
+            mediaRecorder.current.ondataavailable = (e) => {
+                chunks.push(e.data);
+            }
+    
+            mediaRecorder.current.onstop = (e) => {
+                setIsRecording(false);
+                const blob = new Blob(chunks, { type: 'audio/wav' });
+                chunks = [];
+            
+                const audioFile = new File([blob], "audio.wav", { type: 'audio/wav' });
+            
+                speechToText(audioFile).then((text) => {
+                    setMessages(prevMessages => [...prevMessages, { text: text, sender: 'me' }]);
+                    characterChatMessage(sessionId, text).then((response) => {
+                        const { msg, audio_id } = response
+                        getAudio(audio_id).then((audioBlob) => {
+                            const audioFile = new File([audioBlob], "audio.wav", { type: 'audio/wav' });
+                            const audioUrl = URL.createObjectURL(audioFile);
+                            const audio = new Audio(audioUrl);
+                            audio.play();
+                        });
+                        setMessages(prevMessages => [...prevMessages, { text: msg, sender: 'other' }]); 
+                    })
+                });
+            }
+        });
+    }, []);
 
     function handleRecord() {
-        if (mediaRecorder && mediaRecorder.state === 'inactive') {
-            mediaRecorder.start();
+        if (!isRecording) {
+            if (mediaRecorder.current) {
+                mediaRecorder.current.start();
+            }
+            setIsRecording(true);
             console.log("Recording...");
-        } else if (mediaRecorder && mediaRecorder.state === 'recording') {
-            mediaRecorder.stop();
+        } else {
+            if (mediaRecorder.current) {
+                mediaRecorder.current.stop();
+            }
             console.log("Stopped recording.");
         }
     }
@@ -70,7 +79,9 @@ export default function Character() {
                         ))
                     )}
                 </div>
-                <button className="record-btn" onClick={handleRecord}>Record</button>
+                <button className={`record-btn ${isRecording ? 'red' : ''}`} onClick={handleRecord}>
+                    {isRecording ? 'Stop Recording' : 'Record'}
+                </button>
             </div>
         </div>
     )
