@@ -1,0 +1,21 @@
+@import "../index"
+
+.profile-stats > div
+    @extend .box
+
+    display: flex
+    align-items: center
+    gap: 10px
+
+    *
+        white-space: nowrap
+
+    svg
+        font-size: 2em
+        max-width: 25px
+
+    > div
+        > div:nth-child(2)
+            font-size: 0.9em
+
+
