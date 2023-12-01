@@ -2,6 +2,7 @@
 import MandarinChinese from '../assets/img/lang/zh.svg'
 import Japanese from '../assets/img/lang/ja.svg'
 import English from '../assets/img/lang/en.svg'
+import {Chapter, chapters_jp} from "./CourseData";
 
 // db.users: Signup table map<username, password>
 // db.user: Current logged-in user
@@ -13,12 +14,13 @@ export interface Lang {
   name: string
   code: string
   icon: string
+  data: Chapter[]
 }
 
 export const possibleLangs: Lang[] = [
-  {name: 'Mandarin Chinese', code: 'zh', icon: MandarinChinese},
-  {name: 'Japanese', code: 'ja', icon: Japanese},
-  {name: 'English', code: 'en', icon: English},
+  // {name: 'Mandarin Chinese', code: 'zh', icon: MandarinChinese, data: []},
+  {name: 'Japanese', code: 'ja', icon: Japanese, data: chapters_jp},
+  // {name: 'English', code: 'en', icon: English, data: []},
 ]
 
 export function signup(username: string, password: string, language: string)
@@ -56,6 +58,29 @@ export function isLoggedIn()
 export function getUsername()
 {
   return db.user
+}
+
+export function getXp()
+{
+  if (!db.completed) return 0
+  const completed = JSON.parse(db.completed)
+  return completed.length * 20
+}
+
+export function isStepCompleted(chapter: string, step: number)
+{
+  if (!db.completed) return false
+  const completed = JSON.parse(db.completed)
+  return completed.includes(`${chapter}-${step}`)
+}
+
+export function setStepCompleted(chapter: string, step: number)
+{
+  if (!db.completed)
+    db.completed = JSON.stringify([])
+  const completed = JSON.parse(db.completed)
+  completed.push(`${chapter}-${step}`)
+  db.completed = JSON.stringify(completed)
 }
 
 export function getLanguage(): Lang

@@ -1,6 +1,6 @@
 import NavBar from "../components/NavBar"
 import {Icon} from "@iconify/react";
-import {getLanguage, isLoggedIn} from "../logic/sdk";
+import {getLanguage, isLoggedIn, isStepCompleted} from "../logic/sdk";
 import React from "react";
 import "./Course.sass"
 
@@ -45,21 +45,21 @@ export default function Course()
           <span>1</span>
         </div>
       </div>
-      <div className="box green">
-        <div>Chapter 1, Section 1</div>
-        <div className="font-bold">Say hello and goodbye, use numbers</div>
-      </div>
 
-      <div className="v-layout non-center items-center gap2">
-        <CourseButton state={'completed'} index={0}/>
-        <CourseButton state={'active'} index={1}/>
-        <CourseButton state={'locked'} index={2}/>
-        <CourseButton state={'locked'} index={3}/>
-        <CourseButton state={'locked'} index={4}/>
-        <CourseButton state={'locked'} index={5}/>
-      </div>
+      {lang.data.map((chapter, i) => <>
+        <div className="box green">
+          <div>Chapter 1, Section 1</div>
+          <div className="font-bold">{chapter.name}</div>
+        </div>
 
-      <NavBar/>
+        <div className="v-layout non-center items-center gap2">
+          {chapter.steps.map((step, i) =>
+            <CourseButton state={isStepCompleted(chapter.name, i) ? 'completed' : i == 0 || isStepCompleted(chapter.name, i - 1) ? 'active' : 'locked'}
+                          index={i} key={i}/>)}
+        </div>
+
+        <NavBar/>
+      </>)}
     </div>
   )
 
