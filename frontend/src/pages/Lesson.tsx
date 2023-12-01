@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import WrittenQuestionExercise from "../components/WrittenQuestionExercise"
+import WrittenVocabularyExercise from "../components/WrittenVocabularyExercise"
 import Progress from '../components/Progress';
 
 export default function Course() {
@@ -22,22 +23,29 @@ export default function Course() {
   }
 
     const renderQuestion = (questionIndex: number) => {
-      const {question, wordBank, expected, type, exercise} = questions[currQuestion];
-        switch (type) {
+      const question = questions[currQuestion];
+        switch (question.type) {
           case 'written':
-            switch (exercise) {
+            switch (question.exercise) {
               case 'questions':
                 return <WrittenQuestionExercise 
                       key={currQuestion}
-                      question={question} 
-                      wordBank={wordBank} 
-                      expected={expected} 
+                      question={question.question} 
+                      wordBank={question.wordBank} 
+                      expected={question.expected} 
                       chapter={"Travel"} 
                       language={"Japanese"} 
                       onQuestionSubmit={handleQuestionSubmit}
                       />;
-            //   case 'vocabulary':
-            //     return <WrittenVocabularyLesson />;
+              case 'vocabulary':
+                return <WrittenVocabularyExercise 
+                key={currQuestion}
+                question={question.question}
+                pronunciation={question.pronunciation}
+                definition={question.definition}
+                example={question.example}
+                onQuestionSubmit={handleQuestionSubmit}
+                />;
               default:
                 return null;
             }
