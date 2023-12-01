@@ -8,7 +8,7 @@ import {Chapter, chapters_jp} from "./CourseData";
 // db.user: Current logged-in user
 const db = localStorage
 
-const backendUrl = 'https://301-bk.hydev.org'
+const backendUrl = 'https://318-bk.hydev.org'
 
 export interface Lang {
   name: string
