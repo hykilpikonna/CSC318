@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
-import { login } from '../logic/sdk';
+import {isLoggedIn, login} from '../logic/sdk';
 
 export default function Login() {
   
@@ -8,6 +8,12 @@ export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [err, setErr] = useState("")
+
+    useEffect(() => {
+        if (isLoggedIn()) {
+            navigate("/courses");
+        }
+    }, []);
 
     function submitLogin() {
         try {

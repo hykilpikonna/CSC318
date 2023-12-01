@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
-import {possibleLangs, signup} from '../logic/sdk';
+import {isLoggedIn, possibleLangs, signup} from '../logic/sdk';
 import Progress from "../components/Progress";
 import DuoWriting from "../assets/img/duo-writing.png";
 import ChatBox from "../components/ChatBox";
@@ -20,6 +20,12 @@ export default function Signup() {
         setErr("")
         _setStage(stage)
     }
+
+    useEffect(() => {
+        if (isLoggedIn()) {
+            navigate("/courses");
+        }
+    }, []);
 
     function submitSignup() {
         try {
