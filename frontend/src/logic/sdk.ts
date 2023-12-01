@@ -85,12 +85,12 @@ export interface CharacterChatCreationRequest
   language: string;
 }
 
-export interface CharacterChatCreationResponse 
+export interface ChatCreationResponse 
 {
   chat_id: string;
 }
 
-export async function startFictionalChat(character: string): Promise<CharacterChatCreationResponse> {
+export async function startFictionalChat(character: string): Promise<ChatCreationResponse> {
   const currUser = getUsername();
   const language = getLanguage();
   
@@ -101,6 +101,42 @@ export async function startFictionalChat(character: string): Promise<CharacterCh
   };
   
   const response = await fetch(`${backendUrl}/character-chat`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(request),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
+  }
+
+  const json = await response.json();
+  return json.session_id;
+}
+
+export interface HumanChatCreationRequest
+{
+  user_name: string;
+  user_hobbies: string[];
+  target_name: string;
+  target_hobbies: string[];
+  language: string;
+}
+
+export async function startHumanChat(user_hobbies: string[], target_name: string, target_hobbies: string[]): Promise<ChatCreationResponse> {
+
+  const request: HumanChatCreationRequest = {
+    user_name: getUsername(),
+    user_hobbies: user_hobbies,
+    target_name: target_name,
+    target_hobbies: target_hobbies,
+    language: getLanguage().name
+  };
+
+  const response = await fetch(`${backendUrl}/human-chat`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -140,6 +176,27 @@ export async function characterChatMessage(sessionId: string, message: string): 
   const request = {msg : message};
 
   const response = await fetch(`${backendUrl}/character-chat/${sessionId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(request),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
+  }
+
+  const json = await response.json();
+  return json;
+}
+
+export async function humanChatMessage(sessionId: string, message: string): Promise<{ msg: string, audio_id: string }> {
+
+  const request = {msg : message};
+
+  const response = await fetch(`${backendUrl}/human-chat/${sessionId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

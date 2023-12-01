@@ -13,6 +13,8 @@ import Review from './pages/Review';
 import CharacterSelection from './pages/CharacterSelection';
 import Character from './pages/Character';
 import Lesson from './pages/Lesson';
+import FakeUserSelection from './pages/FakeUserSelection';
+import UserChat from './pages/UserChat';
 
 const router = createBrowserRouter([
   {
@@ -54,7 +56,15 @@ const router = createBrowserRouter([
   {
     path: '/lesson',
     element: <Lesson/>
-  }
+  },
+  {
+    path: '/fake-user-selection',
+    element: <FakeUserSelection/>
+  },
+  {
+    path: '/user-chat',
+    element: <UserChat/>
+  },
 ])
 
 const root = ReactDOM.createRoot(

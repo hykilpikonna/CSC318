@@ -36,7 +36,7 @@ export default function Course() {
       };
     
     return (
-        <div className="v-layout p-10">
+        <div className="v-layout p-6">
             <Icon icon="mdi:arrow-left" className="back-button" onClick={() => navigate(-1)} />
             <h1 className="text-center">Course Page</h1>
             <div className="flex flex-col flex-1 mb-8 items-center">
