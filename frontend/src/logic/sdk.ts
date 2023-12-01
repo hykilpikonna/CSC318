@@ -7,7 +7,7 @@ import English from '../assets/img/lang/en.svg'
 // db.user: Current logged-in user
 const db = localStorage
 
-const backendUrl = 'https://localhost:8000'
+const backendUrl = 'https://301-bk.hydev.org'
 
 export interface Lang {
   name: string
