@@ -2,12 +2,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import WrittenQuestionExercise from "../components/WrittenQuestionExercise"
 import WrittenVocabularyExercise from "../components/WrittenVocabularyExercise"
+import VerbalQuestionsExercise from "../components/VerbalQuestionsExercise"
 import Progress from '../components/Progress';
 
-export default function Course() {
+export default function Lesson() {
     const location = useLocation();
     const navigate = useNavigate();
-    const { questions } = location.state;
+    const { questions, home } = location.state;
     const [currQuestion, setCurrQuestion] = useState<number>(0);
 
     const handleNavigateBack = () => {
@@ -18,11 +19,11 @@ export default function Course() {
         if (currQuestion < questions.length - 1) {
             setCurrQuestion(currQuestion + 1);
         } else {
-            navigate("/review");
+            navigate(home);
         }
   }
 
-    const renderQuestion = (questionIndex: number) => {
+    const renderQuestion = (currIndex: number) => {
       const question = questions[currQuestion];
         switch (question.type) {
           case 'written':
@@ -49,17 +50,25 @@ export default function Course() {
               default:
                 return null;
             }
-        //   case 'verbal-listening':
-        //     switch (exercise) {
-        //       case 'questions':
-        //         return <VerbalQuestionsLesson />;
+          case 'verbal-listening':
+            switch (question.exercise) {
+              case 'questions':
+                return <VerbalQuestionsExercise 
+                key={currQuestion}
+                question={question.question} 
+                wordBank={question.wordBank} 
+                expected={question.expected} 
+                chapter={"Travel"} 
+                language={"Japanese"} 
+                onQuestionSubmit={handleQuestionSubmit}
+                />;
         //       case 'pronunciation':
         //         return <VerbalPronunciationLesson />;
-        //       default:
-        //         return null;
-        //     }
-        //   default:
-        //     return null;
+              default:
+                return null;
+            }
+          default:
+            return null;
         }
       };
     

@@ -1,9 +1,10 @@
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import NavBar from "../components/NavBar"
 import { getLanguage, getUsername } from "../logic/sdk";
 
 export default function Review() {
     const navigate = useNavigate();
+    const location = useLocation();
 
     const writtenReview = ["Questions", "Vocabulary"];
     const verbalReview = ["Questions", "Pronunciation"];
@@ -81,7 +82,7 @@ export default function Review() {
                         exercise: 'vocabulary',
                     },
                 ];
-                navigate('/lesson', { state: { questions: reviewQuestions } });
+                navigate('/lesson', { state: { questions: reviewQuestions, home: location.pathname } });
             }
         }
     }
