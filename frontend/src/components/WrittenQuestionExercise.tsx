@@ -1,20 +1,18 @@
 import { useState } from 'react';
-import { getAIMarking } from '../logic/sdk';
+import {getAIMarking, getLanguage} from '../logic/sdk';
 import ClipLoader from "react-spinners/ClipLoader";
+import {WrittenQuestion} from "../logic/CourseData";
 
 interface WrittenQuestionProps {
-  question: string;
-  wordBank: string[];
-  expected: string;
+  q: WrittenQuestion
   chapter: string;
-  language: string;
-  onQuestionSubmit: Function;
+  onSubmit: Function;
 }
 
-export default function WrittenQuestionExercise({question, wordBank, expected, chapter, language, onQuestionSubmit}: WrittenQuestionProps) {
+export default function WrittenQuestionExercise({q, chapter, onSubmit}: WrittenQuestionProps) {
+    const language = getLanguage();
     const [selectedWords, setSelectedWords] = useState<string[]>([]);
-    const [remainingWords, setRemainingWords] = useState(wordBank);
-    const lastPunctuation = question[question.length - 1];
+    const [remainingWords, setRemainingWords] = useState(q.wordBank);
     const [answered, setAnswered] = useState(false);
     const [correct, setCorrect] = useState("");
     const [reason, setReason] = useState("");
@@ -31,18 +29,22 @@ export default function WrittenQuestionExercise({question, wordBank, expected, c
     }
 
     const handleSubmit = () => {
-        const userAnswer = selectedWords.join(" ") + lastPunctuation;
+        // TODO: This space join isn't correct.
+        // When the word bank is Japanese or Chinese, the words are not separated by spaces.
+        // When the langauge is English, the words are separated by spaces.
+        // We need to figure out how to handle this.
+        const userAnswer = selectedWords.join(" ");
         if (answered) {
             setAnswered(false);
-            onQuestionSubmit();
+            onSubmit();
         } else {
             setLoading(true);
             getAIMarking(
-                question,
+                q.question,
                 userAnswer.toLowerCase(),
-                expected.toLowerCase(),
+                q.expected.toLowerCase(),
                 chapter,
-                language
+                language.name
             ).then((res) => {
                 setLoading(false);
                 setAnswered(true);
@@ -50,7 +52,6 @@ export default function WrittenQuestionExercise({question, wordBank, expected, c
                 setReason(res.reason);
             }).catch((e) => console.error(e));
         }
-
     }
 
     const ResponseSection = (correct: string | null, reason: string | null) => {
@@ -62,12 +63,12 @@ export default function WrittenQuestionExercise({question, wordBank, expected, c
                             <span 
                             key={index} 
                             className="border-gray-300 border-2 m-1 p-1 px-3 rounded-xl inline-block cursor-pointer"
-                            onClick={(event) => handleWordBankClick(word)}>
+                            onClick={() => handleWordBankClick(word)}>
                                 {word}
                             </span>
                         ))}
                     </div>
-                    <button className='green' onClick={(e) => handleSubmit()}>
+                    <button className='green' onClick={() => handleSubmit()}>
                         {loading ? <ClipLoader
                             color="white"
                             loading={loading}
@@ -83,7 +84,7 @@ export default function WrittenQuestionExercise({question, wordBank, expected, c
                 <div className=' flex-row flex-wrap border-b-4 w-full h-36'>
                     <h3>{correct}</h3>
                     <p>{reason}</p>
-                    <button className='green w-full' onClick={(e) => handleSubmit()}>{!answered ? "Submit" : "Continue"}</button>
+                    <button className='green w-full' onClick={() => handleSubmit()}>{!answered ? "Submit" : "Continue"}</button>
                 </div>
             )
         }
@@ -92,14 +93,14 @@ export default function WrittenQuestionExercise({question, wordBank, expected, c
     return (
         <div className='v-layout space-y-8 items-center w-full'>
             <div className='round box h-min no-shadow relative min-h-[60px] flex items-center justify-center mx-5'>
-                {question}
+                {q.question}
             </div>
             <div className='flex-row flex-wrap border-b-4 w-full h-36'>
                 {selectedWords.map((word, index) => (
                     <span 
                         key={index}
                         className="border-gray-300 border-b-2 border-2 m-1 p-1 px-3 rounded-xl inline-block cursor-pointer"
-                        onClick={(e) => handleSelectedWordClick(word)}>
+                        onClick={() => handleSelectedWordClick(word)}>
                         {word}
                     </span>
                 ))}

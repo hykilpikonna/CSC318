@@ -3,6 +3,8 @@ import {Icon} from "@iconify/react";
 import {getLanguage, isLoggedIn, isStepCompleted} from "../logic/sdk";
 import React from "react";
 import "./Course.sass"
+import {Step} from "../logic/CourseData";
+import {useLocation, useNavigate} from "react-router-dom";
 
 function CourseButton(props: {state: 'active' | 'locked' | 'completed', index: number})
 {
@@ -17,16 +19,17 @@ function CourseButton(props: {state: 'active' | 'locked' | 'completed', index: n
   // Calculate the horizontal translation
   const translateXValue = amplitude * Math.sin(props.index * frequency);
 
-  return (
-    <div className={cs} style={{transform: `translateX(${translateXValue}px)`}}>
-      <Icon icon={icon}/>
-    </div>
-  )
+  return <div className={cs} style={{transform: `translateX(${translateXValue}px)`}}>
+    <Icon icon={icon}/>
+  </div>
 }
 
 
 export default function Course()
 {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   if (!isLoggedIn())
   {
     window.location.href = '/login';
@@ -35,6 +38,11 @@ export default function Course()
 
   // Get language
   const lang = getLanguage();
+
+  function click(step: Step)
+  {
+    navigate('/lesson', {state: {questions: step.questions, home: location.pathname}})
+  }
 
   return (
     <div className="v-layout page-pad non-center">
@@ -46,20 +54,21 @@ export default function Course()
         </div>
       </div>
 
-      {lang.data.map((chapter, i) => <>
-        <div className="box green">
+      {lang.data.map((chapter, i) => <div key={i}>
+        <div className="box green mb-10">
           <div>Chapter 1, Section 1</div>
           <div className="font-bold">{chapter.name}</div>
         </div>
 
         <div className="v-layout non-center items-center gap2">
-          {chapter.steps.map((step, i) =>
+          {chapter.steps.map((step, i) => <div key={i} onClick={() => click(step)}>
             <CourseButton state={isStepCompleted(chapter.name, i) ? 'completed' : i == 0 || isStepCompleted(chapter.name, i - 1) ? 'active' : 'locked'}
-                          index={i} key={i}/>)}
+                          index={i}/></div>)}
+          {[...Array(5)].map((_, i) => <CourseButton state={'locked'} index={i + chapter.steps.length} key={i}/>)}
         </div>
 
         <NavBar/>
-      </>)}
+      </div>)}
     </div>
   )
 
