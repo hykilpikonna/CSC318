@@ -16,6 +16,16 @@ export default function Character() {
     let chunks = [] as any;
     const mediaRecorder = useRef<MediaRecorder | null>(null);
 
+    const messageEndRef = useRef<HTMLDivElement>(null);
+
+    const scrollToBottom = () => {
+        messageEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    }
+
+    useEffect(() => {
+        scrollToBottom()
+    }, [messages]);
+
     useEffect(() => {
         navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
             mediaRecorder.current = new MediaRecorder(stream);
@@ -57,25 +67,30 @@ export default function Character() {
     }, [isRecording]);
 
     return (
-        <div>
-            <div className="v-layout p-10">
-                <Icon icon="mdi:arrow-left" className="back-button" onClick={() => navigate(-1)} />
-                <h1 className="text-center">Talk With...</h1>
-                <CharacterBadge name={name} image={image} onClick={() => {}}/>
-                <div className="chat-area">
-                    {messages.length === 0 ? (
-                        <p className="text-center text-gray-400">Please record a message to start the conversation.</p>
-                    ) : (
-                        messages.map((message, index) => (
-                            <div key={index} className={`message ${message.sender}`}>
-                                <p>{message.text}</p>
-                            </div>
-                        ))
-                    )}
+        <div className='flex flex-col h-screen'>
+            <div className="flex-grow overflow-y-auto p-6">
+                <div>
+                    <Icon icon="mdi:arrow-left" className="back-button" onClick={() => navigate(-1)} />
+                    <h1 className="text-center">Talk With...</h1>
+                    <CharacterBadge name={name} image={image} onClick={() => {}}/>
+                    <div className="chat-area pb-10">
+                        {messages.length === 0 ? (
+                            <p className='subtext'>Please record a message to start the conversation.</p>
+                        ) : (
+                            messages.map((message, index) => (
+                                <div key={index} className={`message ${message.sender}`}>
+                                    <p>{message.text}</p>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                    <div ref={messageEndRef} />
                 </div>
-                <button className={`record-btn ${isRecording ? 'red' : ''}`} onClick={handleRecord}>
-                    {isRecording ? 'Stop Recording' : 'Record'}
-                </button>
+                <div className='record-container'>
+                    <button className={`${isRecording ? 'red' : ''}`} onClick={handleRecord}>
+                        {isRecording ? 'Stop Recording' : 'Record'}
+                    </button>
+                </div>
             </div>
         </div>
     )

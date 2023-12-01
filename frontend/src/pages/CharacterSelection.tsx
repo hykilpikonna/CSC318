@@ -23,7 +23,7 @@ export default function CharacterSelection() {
 
     return (
         <div className="flex flex-col items-center justify-center">
-            <div className="v-layout p-10">
+            <div className="v-layout p-6">
                 <h1>Talk With...</h1>
                 <div className="flex flex-wrap justify-center gap-3">
                     {characters.map(character => (

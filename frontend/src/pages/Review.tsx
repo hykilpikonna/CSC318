@@ -128,9 +128,9 @@ export default function Review() {
 
     return (
         <div className="layout-v p-10">
-            <h1 className="text-center">Review Page</h1>
-            <h2 className="text-center">Written</h2>
-            <div className="flex flex-col flex-1 mb-10 gap-5">
+            <h1>Review Page</h1>
+            <h2>Written</h2>
+            <div className="flex flex-col flex-1 mb-8 gap-3">
                 {writtenReview.map(lesson => (
                     <button 
                         className="white" 
@@ -141,8 +141,8 @@ export default function Review() {
                     </button>
                 ))}
             </div>
-            <h2 className="text-center">Verbal/Listening</h2>
-            <div className="flex flex-col flex-1 gap-5">
+            <h2>Verbal/Listening</h2>
+            <div className="flex flex-col flex-1 gap-3">
                 {verbalReview.map(lesson => (
                     <button
                         className="white" 

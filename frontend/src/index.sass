@@ -1,6 +1,7 @@
 @tailwind base
 @tailwind components
 @tailwind utilities
+@yaireo/tagify/src/tagify.scss
 
 $c-default-text: #222
 $c-default-icon: #888
@@ -113,6 +114,11 @@ h2
   font-size: 1.5em
   margin-bottom: 0.5em
   text-align: center
+  
+.subtext
+  text-align: center
+  color: rgb(75, 85, 99)
+  opacity: 0.8
 
 .v-layout
   display: flex
@@ -183,12 +189,13 @@ h2
   color: #a0aec0
   font-size: 1.5rem
 
-.record-btn
+.record-container
+  background-color: white !important
   position: fixed
-  bottom: 20px
+  bottom: 0px
   left: 50%
   transform: translateX(-50%)
-  width: calc(100% - 40px)
+  width: 100%
   padding: 10px 16px
 
 .record-btn.red
@@ -203,7 +210,7 @@ h2
   margin: 20px auto
 
 .message
-  margin: 10px
+  margin: 3px
   padding: 10px
   border-radius: 5px
   color: white
@@ -217,3 +224,36 @@ h2
   align-self: flex-start
   background-color: $c-green
   border-radius: 0 20px 20px 20px
+
+.tags
+    display: flex
+    flex-wrap: wrap
+    border: solid $c-white-shadow
+    padding: 10px
+    border-radius: 20px
+    height: 200px
+    overflow-y: scroll
+    align-content: flex-start
+    gap: 10px 5px
+    margin-top: 3px
+
+.tag
+    background-color: $c-blue
+    color: white
+    border-radius: 20px
+    padding: 5px 10px
+    margin: 0
+    display: flex
+    align-items: center
+    justify-content: space-between
+    height: 30px
+
+.delete-tag
+    margin-left: 6px
+    font-weight: 600
+    width: 20px
+    height: 20px
+    color: white
+    display: flex
+    align-items: center
+    justify-content: center
