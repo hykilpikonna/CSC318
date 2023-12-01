@@ -4,6 +4,7 @@ import WrittenQuestionExercise from "../components/WrittenQuestionExercise"
 import WrittenVocabularyExercise from "../components/WrittenVocabularyExercise"
 import VerbalQuestionsExercise from "../components/VerbalQuestionsExercise"
 import Progress from '../components/Progress';
+import VerbalPronunciationExercise from '../components/VerbalPronunciationExercise';
 
 export default function Lesson() {
     const location = useLocation();
@@ -50,7 +51,7 @@ export default function Lesson() {
               default:
                 return null;
             }
-          case 'verbal-listening':
+          case 'verbal':
             switch (question.exercise) {
               case 'questions':
                 return <VerbalQuestionsExercise 
@@ -62,8 +63,15 @@ export default function Lesson() {
                 language={"Japanese"} 
                 onQuestionSubmit={handleQuestionSubmit}
                 />;
-        //       case 'pronunciation':
-        //         return <VerbalPronunciationLesson />;
+              case 'pronunciation':
+                return <VerbalPronunciationExercise 
+                key={currQuestion}
+                question={question.question} 
+                expected={question.expected} 
+                chapter={"Travel"} 
+                language={"Japanese"} 
+                onQuestionSubmit={handleQuestionSubmit}
+                />;
               default:
                 return null;
             }

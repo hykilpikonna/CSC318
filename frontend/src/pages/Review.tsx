@@ -13,6 +13,7 @@ export default function Review() {
     const handleReviewLessonClick = (reviewType: string, lesson: string) => {
         type WrittenQuestion = { question: string, wordBank: string[], expected: string, type: string, exercise: string };
         type VocabularyQuestion = { question: string, pronunciation: string, definition: string, example: string, type: string, exercise: string };
+        type VerbalQuestion = { question: string, wordBank: string[], expected: string, type: string, exercise: string };
         if (language === "Japanese") {
             if (reviewType === "written" && lesson === "questions") {
                 let reviewQuestions: WrittenQuestion[] = [];
@@ -37,21 +38,7 @@ export default function Review() {
                         expected: 'I will check in at the hotel.',
                         type: reviewType,
                         exercise: lesson
-                      },
-                      {
-                        question: 'Translate this sentence: 観光名所を訪れます.',
-                        wordBank: ['Desert', 'Mountain', 'Beach', 'Visit', 'Attractions', 'Tourist', 'I', 'Will'],
-                        expected: 'I will visit tourist attractions.',
-                        type: reviewType,
-                        exercise: lesson
-                      },
-                      {
-                        question: 'Translate this sentence: 美味しい地元の食べ物を試します.',
-                        wordBank: ['Try', 'Market', 'Delicious', 'I', 'Food', 'Will', 'River', 'Local', 'Park'],
-                        expected: 'I will try delicious local food.',
-                        type: reviewType,
-                        exercise: lesson
-                      },
+                      }
                 ]
                 navigate('/lesson', { state: { questions: reviewQuestions } });
             } else if (reviewType === "written" && lesson === "vocabulary") {
@@ -82,6 +69,58 @@ export default function Review() {
                         exercise: 'vocabulary',
                     },
                 ];
+                navigate('/lesson', { state: { questions: reviewQuestions, home: location.pathname } });
+            } else if (reviewType === "verbal" && lesson === "questions") {
+                let reviewQuestions: VerbalQuestion[] = [];
+                reviewQuestions = [
+                    {
+                        question: '新幹線で東京に行きます.',
+                        wordBank: ['新', '幹', '線', 'で', '東', '京', 'に', '行', 'き', 'ま', 'す'],
+                        expected: '新幹線で東京に行きます.',
+                        type: reviewType,
+                        exercise: lesson
+                      },
+                      {
+                        question: '空港で荷物を受け取ります.',
+                        wordBank: ['空', '港', 'で', '荷', '物', 'を', '受', 'け', '取', 'り', 'ます', '.'],
+                        expected: '空港で荷物を受け取ります.',
+                        type: reviewType,
+                        exercise: lesson
+                      },
+                      {
+                        question: 'ホテルでチェックインします.',
+                        wordBank: ['ホ', 'テ', 'ル', 'で', 'チ', 'ェ', 'ッ', 'ク', 'イ', 'ン', 'し', 'ま', 'す', '.'],
+                        expected: 'ホテルでチェックインします.',
+                        type: reviewType,
+                        exercise: lesson
+                      }
+                ]; 
+                navigate('/lesson', { state: { questions: reviewQuestions, home: location.pathname } });
+            } else if (reviewType === "verbal" && lesson === "pronunciation") {
+                let reviewQuestions: VerbalQuestion[] = [];
+                reviewQuestions = [
+                    {
+                        question: '新幹線で東京に行きます.',
+                        wordBank: ['新', '幹', '線', 'で', '東', '京', 'に', '行', 'き', 'ま', 'す'],
+                        expected: '新幹線で東京に行きます.',
+                        type: reviewType,
+                        exercise: lesson
+                      },
+                      {
+                        question: '空港で荷物を受け取ります.',
+                        wordBank: ['空', '港', 'で', '荷', '物', 'を', '受', 'け', '取', 'り', 'ます', '.'],
+                        expected: '空港で荷物を受け取ります.',
+                        type: reviewType,
+                        exercise: lesson
+                      },
+                      {
+                        question: 'ホテルでチェックインします.',
+                        wordBank: ['ホ', 'テ', 'ル', 'で', 'チ', 'ェ', 'ッ', 'ク', 'イ', 'ン', 'し', 'ま', 'す', '.'],
+                        expected: 'ホテルでチェックインします.',
+                        type: reviewType,
+                        exercise: lesson
+                      }
+                ]; 
                 navigate('/lesson', { state: { questions: reviewQuestions, home: location.pathname } });
             }
         }
