@@ -56,12 +56,12 @@ export default function WrittenQuestionExercise({question, wordBank, expected, c
     const ResponseSection = (correct: string | null, reason: string | null) => {
         if (!answered) {
             return (
-                <div>
-                    <div className=' flex-row flex-wrap border-b-4 w-full'>
+                <div className='w-full h-36'>
+                    <div className=' flex-row flex-wrap w-full h-full'>
                         {remainingWords.map((word, index) => (
                             <span 
                             key={index} 
-                            className="border-gray-300 border-b-2 border-2 m-1 p-1 px-3 rounded-xl inline-block cursor-pointer"
+                            className="border-gray-300 border-2 m-1 p-1 px-3 rounded-xl inline-block cursor-pointer"
                             onClick={(event) => handleWordBankClick(word)}>
                                 {word}
                             </span>
@@ -80,12 +80,10 @@ export default function WrittenQuestionExercise({question, wordBank, expected, c
             )
         } else {
             return (
-                <div>
-                    <div className=' flex-row flex-wrap border-b-4 w-full'>
-                        <h3>{correct}</h3>
-                        <p>{reason}</p>
-                        <button className='green' onClick={(e) => handleSubmit()}>{!answered ? "Submit" : "Continue"}</button>
-                    </div>
+                <div className=' flex-row flex-wrap border-b-4 w-full h-36'>
+                    <h3>{correct}</h3>
+                    <p>{reason}</p>
+                    <button className='green w-full' onClick={(e) => handleSubmit()}>{!answered ? "Submit" : "Continue"}</button>
                 </div>
             )
         }
@@ -96,7 +94,7 @@ export default function WrittenQuestionExercise({question, wordBank, expected, c
             <div className='round box h-min no-shadow relative min-h-[60px] flex items-center justify-center mx-5'>
                 {question}
             </div>
-            <div className='flex-row flex-wrap border-b-4 w-full'>
+            <div className='flex-row flex-wrap border-b-4 w-full h-36'>
                 {selectedWords.map((word, index) => (
                     <span 
                         key={index}

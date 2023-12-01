@@ -66,7 +66,6 @@ export default function Course() {
     return (
         <div className="v-layout p-10">
             <Progress percent={currQuestion / questions.length * 100} back={handleNavigateBack}/>
-            <h1 className="text-center">Course Page</h1>
             <div className="flex flex-col flex-1 mb-8 items-center">
                 {renderQuestion(currQuestion)}
             </div>
