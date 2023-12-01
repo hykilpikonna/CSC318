@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { getAIMarking } from '../logic/sdk';
 import ClipLoader from "react-spinners/ClipLoader";
+import { Icon } from '@iconify/react';
 
-interface WrittenQuestionProps {
+interface VerbalQuestionProps {
   question: string;
   wordBank: string[];
   expected: string;
@@ -11,7 +12,7 @@ interface WrittenQuestionProps {
   onQuestionSubmit: Function;
 }
 
-export default function WrittenQuestionExercise({question, wordBank, expected, chapter, language, onQuestionSubmit}: WrittenQuestionProps) {
+export default function VerbalQuestionsExercise({question, wordBank, expected, chapter, language, onQuestionSubmit}: VerbalQuestionProps) {
     const [selectedWords, setSelectedWords] = useState<string[]>([]);
     const [remainingWords, setRemainingWords] = useState(wordBank);
     const lastPunctuation = question[question.length - 1];
@@ -19,6 +20,7 @@ export default function WrittenQuestionExercise({question, wordBank, expected, c
     const [correct, setCorrect] = useState("");
     const [reason, setReason] = useState("");
     const [loading, setLoading] = useState(false);
+    const [isListening, setListening] = useState(false);
 
     const handleWordBankClick = (word: string) => {
         setSelectedWords([...selectedWords, word]);
@@ -89,10 +91,16 @@ export default function WrittenQuestionExercise({question, wordBank, expected, c
         }
     }
 
+    const  handleListenToQuestion = () => {
+        // TODO: Play static file that holds the audio for the current
+        console.log("Heard you");
+    }
+
     return (
         <div className='v-layout space-y-8 items-center w-full'>
+            <h1>What do you hear?</h1>
             <div className='round box h-min no-shadow relative min-h-[60px] flex items-center justify-center mx-5'>
-                {question}
+                <Icon icon="mdi:volume-high" className="volume-high h-16 w-16" onClick={handleListenToQuestion} />
             </div>
             <div className='flex-row flex-wrap border-b-4 w-full h-36'>
                 {selectedWords.map((word, index) => (
