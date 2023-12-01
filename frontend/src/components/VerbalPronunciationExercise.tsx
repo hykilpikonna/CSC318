@@ -1,6 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
-import CharacterBadge from '../components/CharacterBadge';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { speechToText, getAIMarking } from '../logic/sdk';
 import ClipLoader from "react-spinners/ClipLoader";

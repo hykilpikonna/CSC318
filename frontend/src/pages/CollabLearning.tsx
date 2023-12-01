@@ -1,5 +1,5 @@
 import NavBar from "../components/NavBar"
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { generateFakeUsers } from '../logic/fakeUsers';
 import { useNavigate } from 'react-router-dom';
 
@@ -44,7 +44,7 @@ export default function CollabLearning() {
     return (
         <div className="v-layout p-6">
             <div className="flex flex-col flex-1">
-                <h1>Collaborative Learning</h1>
+                <h1>Chat</h1>
                 <p className="subtext">Find people fluent in your taget language to Chat!</p>
                 <p className="subtext">Help them learn a language you know!</p>
                 <p className="font-bold pt-10">Interests</p>

@@ -76,7 +76,7 @@ export default function Profile()
         </div>
 
         <div>
-          <Icon icon="fa-solid:comments" className="text-blue-400"/>
+          <Icon icon="mdi:microphone-message" className="text-blue-400"/>
           <div>
             <div className="font-bold">0</div>
             <div>Speaking</div>
