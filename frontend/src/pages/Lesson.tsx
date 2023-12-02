@@ -5,6 +5,7 @@ import WrittenVocabularyExercise from "../components/WrittenVocabularyExercise"
 import VerbalQuestionsExercise from "../components/VerbalQuestionsExercise"
 import Progress from '../components/Progress';
 import VerbalPronunciationExercise from '../components/VerbalPronunciationExercise';
+import LessonComplete from '../components/LessonComplete';
 import {_Question, chapters_jp, Question} from "../logic/CourseData";
 import VideoExercise from "../components/VideoExercise";
 
@@ -24,27 +25,28 @@ export default function Lesson()
 
   const onSubmit = () =>
   {
-    if (currQuestion < questions.length - 1)
-      setCurrQuestion(currQuestion + 1);
-    else navigate(home);
+    setCurrQuestion(currQuestion + 1);
   }
 
   const renderQuestion = (currIndex: number) =>
   {
+    if (currIndex >= questions.length) {
+      return <LessonComplete home={home}/>;
+    }
     const chapter = 'Ordering food';
     const question: Question = questions[currQuestion];
     switch (question.type)
     {
       case 'written-question':
-        return <WrittenQuestionExercise q={question} chapter={chapter} onSubmit={onSubmit}/>;
+        return <WrittenQuestionExercise key={currQuestion} q={question} chapter={chapter} onSubmit={onSubmit}/>;
       case 'written-vocabulary':
-        return <WrittenVocabularyExercise q={question} onSubmit={onSubmit}/>;
+        return <WrittenVocabularyExercise key={currQuestion} q={question} onSubmit={onSubmit}/>;
       case 'verbal-question':
-        return <VerbalQuestionsExercise q={question} chapter={chapter} onSubmit={onSubmit}/>;
+        return <VerbalQuestionsExercise key={currQuestion} q={question} chapter={chapter} onSubmit={onSubmit}/>;
       case 'verbal-pronunciation':
-        return <VerbalPronunciationExercise q={question} chapter={chapter} onSubmit={onSubmit}/>;
+        return <VerbalPronunciationExercise key={currQuestion} q={question} chapter={chapter} onSubmit={onSubmit}/>;
       case 'video':
-        return <VideoExercise q={question} chapter={chapter} onSubmit={onSubmit}/>;
+        return <VideoExercise key={currQuestion} q={question} chapter={chapter} onSubmit={onSubmit}/>;
       default:
         return null;
     }

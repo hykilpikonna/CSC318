@@ -20,6 +20,7 @@ export default function WrittenQuestionExercise({q, onSubmit}: WrittenVocabulary
 
     return (
         <div className='v-layout space-y-8 items-center w-full'>
+            <h1>Vocabulary: Do you know this word?</h1>
             <div className='round box h-min no-shadow relative min-h-[60px] flex items-center justify-center mx-5'>
                 {q.question}
             </div>
