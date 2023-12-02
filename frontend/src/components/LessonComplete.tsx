@@ -13,7 +13,7 @@ export default function LessonComplete({ home } : LessonCompleteProps)
     <div className="flex flex-col p-5 gap-5 items-center">
       <img src={DuoSplash} alt="Duolingo Logo"></img>
 
-      <h1>Well done! You completed this module!</h1>
+      <h1>Well done!</h1>
 
       <p className="white">
         Experience Gained: +100XP
