@@ -36,15 +36,15 @@ export default function Lesson()
     switch (question.type)
     {
       case 'written-question':
-        return <WrittenQuestionExercise q={question} chapter={chapter} onSubmit={onSubmit}/>;
+        return <WrittenQuestionExercise key={currQuestion} q={question} chapter={chapter} onSubmit={onSubmit}/>;
       case 'written-vocabulary':
-        return <WrittenVocabularyExercise q={question} onSubmit={onSubmit}/>;
+        return <WrittenVocabularyExercise key={currQuestion} q={question} onSubmit={onSubmit}/>;
       case 'verbal-question':
-        return <VerbalQuestionsExercise q={question} chapter={chapter} onSubmit={onSubmit}/>;
+        return <VerbalQuestionsExercise key={currQuestion} q={question} chapter={chapter} onSubmit={onSubmit}/>;
       case 'verbal-pronunciation':
-        return <VerbalPronunciationExercise q={question} chapter={chapter} onSubmit={onSubmit}/>;
+        return <VerbalPronunciationExercise key={currQuestion} q={question} chapter={chapter} onSubmit={onSubmit}/>;
       case 'video':
-        return <VideoExercise q={question} chapter={chapter} onSubmit={onSubmit}/>;
+        return <VideoExercise key={currQuestion} q={question} chapter={chapter} onSubmit={onSubmit}/>;
       default:
         return null;
     }
