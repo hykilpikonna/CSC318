@@ -171,7 +171,7 @@ export const chapters_es: Chapter[] = [
         },
         {
           question: 'What is the filling of the tequeño?',
-          clipUrl: window.location.origin + "/video/paella.mp4",
+          clipUrl: window.location.origin + "/video/tequeños.mp4",
           description: "Tequeños are a popular Venezuelan appetizer. They are made of cheese wrapped in dough and fried.",
           expected: 'Cheese (queso)',
           type: 'video',
