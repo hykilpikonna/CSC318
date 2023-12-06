@@ -101,7 +101,7 @@ export const chapters_jp: Chapter[] = [
             // question: "Translate this sentence: Water please",
             // wordBank: ['水', 'を', 'ください', 'おいしい', 'おもい', 'すし', '中', 'です'],
             question: 'Translate this sentence: 水をください',
-            wordBank: ['I', 'sushi', 'cookies', 'want', 'please', 'give', 'rice', 'some', 'yesterday'],
+            wordBank: ['I', 'sushi', 'cookies', 'want', 'please', 'give', 'Water', 'some', 'yesterday'],
             // expected: '水をください',
             expected: 'Water please',
             type: "written-question"
@@ -131,6 +131,86 @@ export const chapters_jp: Chapter[] = [
             clipUrl: window.location.origin + "/video/dango.mp4",
             description: "This is the song 'Dango Daikazoku' from the anime 'Clannad'. It is about a family of dango.",
             expected: '団子 or dango',
+            type: 'video',
+          }
+        ]
+      }]
+  }
+]
+
+export const chapters_es: Chapter[] = [
+  {
+    name: 'Order food',
+    steps: [{
+      questions: [
+        {
+          question: "Translate this phrase: Me provoca un helado",
+          wordBank: ['I', 'want', 'ice cream', 'an', 'urgent', 'am', 'craving', 'milkshake'],
+          expected: 'I want an ice cream',
+          type: "written-question"
+        },
+        {
+          question: 'Pastel',
+          pronunciation: 'Pastel (pahs-tehl)',
+          description: 'Pastel is the Spanish word for "cake". It is a popular dessert in many Spanish-speaking countries, also known as torta.',
+          example: 'Vamos a celebrar con un pastel! (Let\'s celebrate with a cake!)',
+          type: 'written-vocabulary',
+        },
+        {
+          question: 'What do you hear?',
+          wordBank: ['favor', 'ver', 'el', 'menú', 'por', 'favor', 'Quiero', 'libro', 'risas', 'oler'],
+          expected: 'Quiero ver el menú por favor',
+          translation: 'I want to see the menu, please',
+          url: window.location.origin + '/audio/es_1_1_3.mp3',
+          type: 'verbal-question',
+        },
+        {
+          question: 'Please say: Este postre es exquisito',
+          translation: 'This dessert is exquisite',
+          type: 'verbal-pronunciation',
+        },
+        {
+          question: 'What is the filling of the tequeño?',
+          clipUrl: window.location.origin + "/video/paella.mp4",
+          description: "Tequeños are a popular Venezuelan appetizer. They are made of cheese wrapped in dough and fried.",
+          expected: 'Cheese (queso)',
+          type: 'video',
+        }
+      ]
+    },
+      {
+        questions: [
+          {
+            question: "Translate this phrase: Yo quiero agua por favor",
+            wordBank: ['I', 'juice', 'water', 'want', 'please', 'give', 'some', 'now'],
+            expected: 'I want water please',
+            type: "written-question"
+          },
+          {
+            question: 'Jugo',
+            pronunciation: 'Jugo (hoo-goh)',
+            description: 'Jugo is the Spanish word for "juice". In some parts of the world, juice is also called zumo.',
+            example: 'Me gusta tomar jugo de naranja! (I like to drink orange juice!)',
+            type: 'written-vocabulary',
+          },
+          {
+            question: 'What do you hear?',
+            wordBank: ['Que', 'Quien', 'tomar', 'yo', 'tú', 'quieres', 'comer', 'de'],
+            expected: 'Que quieres de comer',
+            translation: 'What do you want to eat?',
+            url: window.location.origin + '/audio/es_1_2_3.mp3',
+            type: 'verbal-question',
+          },
+          {
+            question: 'Please say: La comida está deliciosa!',
+            translation: 'The food is delicious!',
+            type: 'verbal-pronunciation',
+          },
+          {
+            question: 'What is the boy going to eat?',
+            clipUrl: window.location.origin + "/video/paella.mp4",
+            description: "The boy is about to eat paella, a traditional Spanish dish. It is made of rice, seafood, and vegetables.",
+            expected: 'Paella',
             type: 'video',
           }
         ]

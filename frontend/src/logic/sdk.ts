@@ -1,14 +1,16 @@
 
 import MandarinChinese from '../assets/img/lang/zh.svg'
 import Japanese from '../assets/img/lang/ja.svg'
+import Spanish from '../assets/img/lang/es.svg'
 import English from '../assets/img/lang/en.svg'
-import {Chapter, chapters_jp} from "./CourseData";
+import {Chapter, chapters_jp, chapters_es} from "./CourseData";
 
 // db.users: Signup table map<username, password>
 // db.user: Current logged-in user
 const db = localStorage
 
-const backendUrl = 'https://318-bk.hydev.org'
+// const backendUrl = 'https://318-bk.hydev.org'
+const backendUrl = "https://127.0.0.1:8000"
 
 export interface Lang {
   name: string
@@ -20,6 +22,7 @@ export interface Lang {
 export const possibleLangs: Lang[] = [
   // {name: 'Mandarin Chinese', code: 'zh', icon: MandarinChinese, data: []},
   {name: 'Japanese', code: 'ja', icon: Japanese, data: chapters_jp},
+  {name: 'Spanish', code: 'es', icon: Spanish, data: chapters_es},
   // {name: 'English', code: 'en', icon: English, data: []},
 ]
 
@@ -30,7 +33,7 @@ export function signup(username: string, password: string, language: string)
 
   const users = JSON.parse(db.users)
 
-  users[username] = {password, language}
+  users[username] = {password, language, "experience": 10, "completed_modules": [], "day_streak": 0, "speaking": 0}
   db.users = JSON.stringify(users)
 
   db.user = username
