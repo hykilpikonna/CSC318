@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { useState, useRef, useEffect } from 'react';
 import { humanChatMessage } from '../logic/sdk';
+import { SyncLoader } from 'react-spinners';
 
 export default function Character() {
     const location = useLocation();
@@ -11,6 +12,7 @@ export default function Character() {
     type Message = { text: string, sender: string };
     const [messages, setMessages] = useState<Message[]>([]);
     const [message, setMessage] = useState('');
+    const [isOtherLoading, setIsOtherLoading] = useState(false);
 
     const messageEndRef = useRef<HTMLDivElement>(null);
 
@@ -22,13 +24,16 @@ export default function Character() {
         scrollToBottom()
     }, [messages]);
 
-    const handleSendClick = () => {
+    const handleSendClick = async () => {
         if (message !== '') {
             setMessages(prevMessages => [...prevMessages, { text: message, sender: 'me' }]);
             setMessage('');
-            humanChatMessage(sessionId, message).then((response) => {
-                setMessages(prevMessages => [...prevMessages, { text: response.msg, sender: 'other' }]);
-            })
+
+            setIsOtherLoading(true);
+            const response = await humanChatMessage(sessionId, message);
+            const { msg } = response;
+            setMessages(prevMessages => [...prevMessages, { text: msg, sender: 'other' }]);
+            setIsOtherLoading(false);
         }
 
     }
@@ -54,6 +59,17 @@ export default function Character() {
                                 <p>{message.text}</p>
                             </div>
                         ))
+                    )}
+                    {isOtherLoading && (
+                        <div className="message other">
+                            <SyncLoader
+                                color="white"
+                                loading={isOtherLoading}
+                                aria-label="Loading Spinner"
+                                data-testid="loader"
+                                size={10}
+                            />
+                        </div>
                     )}
                     <div ref={messageEndRef} />
                 </div>
