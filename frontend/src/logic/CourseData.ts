@@ -158,7 +158,7 @@ export const chapters_es: Chapter[] = [
         },
         {
           question: 'What do you hear?',
-          wordBank: ['favor', 'ver', 'el', 'menú', 'por', 'favor', 'Quiero', 'libro', 'risas', 'oler'],
+          wordBank: ['favor', 'ver', 'el', 'menú', 'por', 'Quiero', 'libro', 'risas', 'oler'],
           expected: 'Quiero ver el menú por favor',
           translation: 'I want to see the menu, please',
           url: window.location.origin + '/audio/es_1_1_3.mp3',
