@@ -80,13 +80,12 @@ export default function WrittenQuestionExercise({q, chapter, onSubmit}: WrittenQ
 
             )
         } else {
-            return (
-                <div className=' flex-row flex-wrap border-b-4 w-full h-36'>
-                    <h3>{correct}</h3>
-                    <p>{reason}</p>
-                    <button className='green w-full' onClick={() => handleSubmit()}>{!answered ? "Submit" : "Continue"}</button>
-                </div>
-            )
+            return <div className='flex flex-wrap w-full gap-5'>
+              <div className="font-bold">{correct ? "Correct!" : "Incorrect"}</div>
+              <div>{reason}</div>
+              <button className='green w-full' onClick={() => handleSubmit()}>{!answered ? "Submit" : "Continue"}</button>
+              {answered && !correct && <button className='red w-full' onClick={() => handleSubmit()}>I was right</button>}
+            </div>
         }
     }
 

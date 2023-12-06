@@ -59,14 +59,6 @@ export const chapters_jp: Chapter[] = [
     name: 'Order food',
     steps: [{
       questions: [
-
-        {
-          question: 'What did Yui come to the club meeting for?',
-          clipUrl: window.location.origin + "/video/cake.mp4",
-          description: "This is a clip from the anime 'K-On'. Yui is a member of the light music club. She came to the club meeting to eat cake.",
-          expected: 'ケーキ or cake',
-          type: 'video',
-        },
         {
           question: 'Translate this sentence: すしをください',
           wordBank: ['I', 'sushi', 'cookies', 'want', 'please', 'give', 'rice', 'some', 'yesterday'],
@@ -89,10 +81,17 @@ export const chapters_jp: Chapter[] = [
           type: 'verbal-question',
         },
         {
-          question: 'Please say: すしをたくさんあります',
+          question: 'すしをたくさんあります',
           translation: 'There is a lot of sushi',
           type: 'verbal-pronunciation',
         },
+        {
+          question: 'What is the following song about?',
+          clipUrl: window.location.origin + "/video/dango.mp4",
+          description: "This is the song 'Dango Daikazoku' from the anime 'Clannad'. It is about a family of dango.",
+          expected: '団子 or dango',
+          type: 'video',
+        }
       ]
     },
       {
@@ -122,17 +121,17 @@ export const chapters_jp: Chapter[] = [
             type: 'verbal-question',
           },
           {
-            question: 'Please say: 刺身おください',
+            question: '刺身おください',
             translation: 'Please give me sashimi',
             type: 'verbal-pronunciation',
           },
           {
-            question: 'What is the following song about?',
-            clipUrl: window.location.origin + "/video/dango.mp4",
-            description: "This is the song 'Dango Daikazoku' from the anime 'Clannad'. It is about a family of dango.",
-            expected: '団子 or dango',
+            question: 'What did Yui come to the club meeting for?',
+            clipUrl: window.location.origin + "/video/cake.mp4",
+            description: "This is a clip from the anime 'K-On'. Yui is a member of the light music club. She came to the club meeting to eat cake.",
+            expected: 'ケーキ or cake',
             type: 'video',
-          }
+          },
         ]
       }]
   }

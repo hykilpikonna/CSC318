@@ -17,6 +17,7 @@ export default function VerbalPronunciationExercise({q, chapter, onSubmit}: Verb
     const [loading, setLoading] = useState(false);
     const [correct, setCorrect] = useState("");
     const [reason, setReason] = useState("");
+    const [userAnswer, setUserAnswer] = useState("");
 
     const handleSubmit = () => {
         if (answered) {
@@ -46,7 +47,8 @@ export default function VerbalPronunciationExercise({q, chapter, onSubmit}: Verb
                 const audioFile = new File([blob], "audio.wav", { type: 'audio/wav' });
             
                 const text = await speechToText(audioFile);
-                const aiMark = await getAIMarking(q.question, text.toLowerCase(), "", chapter, language);
+                setUserAnswer(text);
+                const aiMark = await getAIMarking(`Please pronounce the following: ${q.question}`, text.toLowerCase(), "", chapter, language);
                 setAnswered(true);
                 setCorrect(aiMark.correct);
                 setReason(aiMark.reason);
@@ -73,14 +75,14 @@ export default function VerbalPronunciationExercise({q, chapter, onSubmit}: Verb
                 <div className='flex backdrop:flex-row justify-center w-full'>
                     <Icon icon="mdi:microphone" className="microphone h-20 w-20 mx-auto"/>
                     <button className={`record-btn mx-auto ${isRecording ? 'red' : ''}`} onClick={handleRecord}>
-                        {isRecording ? 'Stop Recording' 
-                        : loading ?  
+                        {isRecording ? 'Stop Recording'
+                        : loading ?
                         <ClipLoader
                             color="white"
                             loading={loading}
                             aria-label="Loading Spinner"
                             data-testid="loader"
-                        /> : 
+                        /> :
                         'Record'}
                     </button>
                 </div>
@@ -88,24 +90,25 @@ export default function VerbalPronunciationExercise({q, chapter, onSubmit}: Verb
             )
         } else {
             return (
-                <div className=' flex-row flex-wrap w-full'>
-                    <h3>{correct}</h3>
-                    <p>{reason}</p>
-                    <button className='record-btn w-full bottom-0 relative' onClick={(e) => handleSubmit()}>Continue</button>
-                </div>
+              <div className='flex flex-wrap w-full gap-5'>
+                  <div className="font-bold">{correct ? "Correct!" : "Incorrect"}</div>
+                  <div>{reason}</div>
+                  <button className='green w-full' onClick={() => handleSubmit()}>{!answered ? "Submit" : "Continue"}</button>
+                  {answered && !correct && <button className='red w-full' onClick={() => handleSubmit()}>I was right</button>}
+              </div>
             )
         }
     }
 
-    return (
-        <div>
-            <div className="v-layout page-pad flex justify-center">
-                <h1 className="text-center">Say the following</h1>
-                <div className='round box h-min no-shadow relative min-h-[60px] flex items-center justify-center'>
-                    {q.question}
-                </div>
-                {ResponseSection(correct, reason)}
-            </div>
+    return <div className="v-layout flex justify-center h-full">
+        <div className="font-bold">Say the following</div>
+        <div className='box'>
+            {q.question}
         </div>
-    )
+        {userAnswer && <div className='flex items-center gap-3'>
+            <Icon icon="mdi:microphone"/> {userAnswer}
+        </div>}
+        <div className="flex-1"></div>
+        {ResponseSection(correct, reason)}
+    </div>
 }

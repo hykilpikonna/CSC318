@@ -53,10 +53,8 @@ export default function Lesson()
   return (
     <div className="v-layout page-pad non-center">
       <Progress percent={currQuestion / questions.length * 100} back={handleNavigateBack}/>
-      <div className="p-5">
-        <div className="flex flex-col flex-1 mb-8 items-center">
-          {renderQuestion(currQuestion)}
-        </div>
+      <div className="p-5 h-full">
+        {renderQuestion(currQuestion)}
       </div>
     </div>
   )

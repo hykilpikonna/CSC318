@@ -43,11 +43,12 @@ export default function VideoExercise({q, chapter, onSubmit}: VideoQuestionProps
   }
 
   return (
-    <div className='v-layout space-y-8 items-center w-full'>
+    <div className='v-layout w-full h-full non-center'>
       <div className="box">
         {q.question}
       </div>
       <video src={q.clipUrl} controls className='video-player'></video>
+      <div className="flex-1"></div>
       <div className='flex-col w-full'>
         {!answered ?
           <div className="v-layout">
@@ -57,10 +58,11 @@ export default function VideoExercise({q, chapter, onSubmit}: VideoQuestionProps
               {loading ? <ClipLoader color="white" loading={loading} /> : "Submit"}
             </button>
           </div> :
-          <div className='flex-col w-full'>
-            <h3>{correct}</h3>
-            <p>{reason}</p>
-            <button className='green w-full' onClick={() => handleSubmit()}>Continue</button>
+          <div className='flex flex-wrap w-full gap-5'>
+            <div className="font-bold">{correct ? "Correct!" : "Incorrect"}</div>
+            <div>{reason}</div>
+            <button className='green w-full' onClick={() => handleSubmit()}>{!answered ? "Submit" : "Continue"}</button>
+            {answered && !correct && <button className='red w-full' onClick={() => handleSubmit()}>I was right</button>}
           </div>
         }
       </div>

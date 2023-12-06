@@ -17,7 +17,7 @@ export default function Review() {
 
     return (
         <div className="layout-v page-pad">
-            <h1>Review Page</h1>
+            <h1>Daily Review</h1>
             <h2>Written</h2>
             <div className="flex flex-col flex-1 mb-8 gap-3">
                 {writtenReview.map(lesson => (

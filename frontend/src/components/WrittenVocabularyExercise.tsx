@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {VocabularyQuestion} from "../logic/CourseData";
+import {Icon} from "@iconify/react";
 
 interface WrittenVocabularyProps {
   q: VocabularyQuestion
@@ -19,23 +20,30 @@ export default function WrittenQuestionExercise({q, onSubmit}: WrittenVocabulary
     }
 
     return (
-        <div className='v-layout space-y-8 items-center w-full'>
-            <div className='round box h-min no-shadow relative min-h-[60px] flex items-center justify-center mx-5'>
+        <div className='v-layout gap-5 h-full'>
+            <div className="font-bold">Recall the following word</div>
+            <div className='box text-center'>
                 {q.question}
             </div>
-            <div className=' flex-col flex-wrap w-full'>
-                {answered ? 
-                    <div className='flex-col w-full'>
-                        <h3>{q.pronunciation}</h3>
-                        <p>{q.description}</p>
-                        <p>{q.example}</p>
-                        <div className='flex-row'>
-                            <button className='green my-4' onClick={(e) => handleSubmit()}>I got it!</button>
-                            <button className='red' onClick={(e) => handleSubmit()}>I forgot</button>
-                        </div>
-                    </div>
-                    : 
-                    <button className='white' onClick={(e) => handleSubmit()}>Show Meaning</button>
+            <div className="flex-1 flex justify-center items-center w-full">
+              {answered &&
+                  <div className='flex flex-col gap-3 w-full'>
+                      <div className="font-bold">{q.pronunciation}</div>
+                      <div>{q.description}</div>
+                      <div className="text-yellow-600 flex items-center gap-3"><Icon icon="fa:star"/>{q.example}</div>
+                  </div>
+              }
+            </div>
+            <div className="mb-5">
+                {answered ?
+                    <>
+                      <button className='green my-4' onClick={(e) => handleSubmit()}>I got it!</button>
+                      <button className='red' onClick={(e) => handleSubmit()}>I forgot</button>
+                    </> :
+                    <>
+                      <div className="text-gray-400 text-sm mb-5">Please click "show meaning" after you have tried to recall the meaning of the word</div>
+                      <button className='white' onClick={(e) => handleSubmit()}>Show Meaning</button>
+                    </>
                 }
             </div>
         </div>

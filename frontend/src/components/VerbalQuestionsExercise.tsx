@@ -52,41 +52,40 @@ export default function VerbalQuestionsExercise({q, chapter, onSubmit}: VerbalQu
 
     }
 
-    const ResponseSection = (correct: string | null, reason: string | null) => {
-        if (!answered) {
-            return (
-                <div className='w-full h-32'>
-                    <div className=' flex-row flex-wrap w-full h-full'>
-                        {remainingWords.map((word, index) => (
-                            <span 
-                            key={index} 
-                            className="border-gray-300 border-2 m-1 p-1 px-3 rounded-xl inline-block cursor-pointer"
-                            onClick={(event) => handleWordBankClick(word)}>
+  const ResponseSection = (correct: string | null, reason: string | null) => {
+    if (!answered) {
+      return (
+        <div className='w-full h-36'>
+          <div className=' flex-row flex-wrap w-full h-full'>
+            {remainingWords.map((word, index) => (
+              <span
+                key={index}
+                className="border-gray-300 border-2 m-1 p-1 px-3 rounded-xl inline-block cursor-pointer"
+                onClick={() => handleWordBankClick(word)}>
                                 {word}
                             </span>
-                        ))}
-                    </div>
-                    <button className='green' onClick={(e) => handleSubmit()}>
-                        {loading ? <ClipLoader
-                            color="white"
-                            loading={loading}
-                            aria-label="Loading Spinner"
-                            data-testid="loader"
-                        /> : !answered ? "Submit" : "Continue"}
-                    </button>
-                </div>
+            ))}
+          </div>
+          <button className='green' onClick={() => handleSubmit()}>
+            {loading ? <ClipLoader
+              color="white"
+              loading={loading}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            /> : !answered ? "Submit" : "Continue"}
+          </button>
+        </div>
 
-            )
-        } else {
-            return (
-                <div className=' flex-row flex-wrap border-b-4 w-full h-36'>
-                    <h3>{correct}</h3>
-                    <p>{reason}</p>
-                    <button className='green w-full' onClick={(e) => handleSubmit()}>{!answered ? "Submit" : "Continue"}</button>
-                </div>
-            )
-        }
+      )
+    } else {
+      return <div className='flex flex-wrap w-full gap-5'>
+        <div className="font-bold">{correct ? "Correct!" : "Incorrect"}</div>
+        <div>{reason}</div>
+        <button className='green w-full' onClick={() => handleSubmit()}>{!answered ? "Submit" : "Continue"}</button>
+        {answered && !correct && <button className='red w-full' onClick={() => handleSubmit()}>I was right</button>}
+      </div>
     }
+  }
 
     return (
         <div className='v-layout space-y-8 items-center w-full'>
