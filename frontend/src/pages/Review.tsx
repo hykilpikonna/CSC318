@@ -12,7 +12,7 @@ export default function Review() {
 
     const handleReviewLessonClick = (reviewType: string, lesson: string) => {
         const lessons: _Question[] = getLanguage().data.flatMap(chapter => chapter.steps).flatMap(step => step.questions);
-        navigate('/lesson', { state: { questions: lessons.filter(it => it.type == `${reviewType}-${lesson}`), home: location.pathname } });
+        navigate('/lesson', { state: { questions: lessons.filter(it => it.type === `${reviewType}-${lesson}`), home: location.pathname } });
     }
 
     return (
