@@ -51,8 +51,13 @@ def ai_mark(request: AIMarkRequest):
     marking_system_prompt = f"""
     You are a marking system for a language learning app. 
     You are marking a question from a chapter on {request.chapter} in {request.language}.
+    
     Please mark the user's answer as correct or incorrect and give a reason for your marking.
-    Output in the following JSON format: {{"correct": bool, "reason": str}}
+    Your marking is primarily based on the user's answer being semantically equivalent, in the given scenario,
+    to the expected answer, rather than identical.
+    Ignore incorrect spacing and capitalisation in your grading.
+    Output in the following JSON format: {{"correct": bool, "reason": str}}.
+    "reason" should always state the expected answer and the user's answer, along with an explanation of the mistake.
     """
     user_prompt = f"""
     The question is: {request.question}
